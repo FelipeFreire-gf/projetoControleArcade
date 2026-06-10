@@ -81,6 +81,12 @@ O jogo web, executado como widget ou aplicação conectada ao ThingsBoard, receb
 
 - **Integração ThingsBoard ↔ Jogo:** O widget ou página web deve assinar a telemetria do device correto e mapear cada campo JSON para ações no game loop (movimento, rotação, disparo, pausa).
 
+<p align="center">
+  <img src="docs/casePronta.png" alt="Case 3D impressa do controle arcade montada" width="500"/>
+</p>
+
+<p align="center"><em>Figura 3: Protótipo físico do controle arcade — case 3D impressa com alavanca, botões e fiação interna</em></p>
+
 ---
 
 ## 3. Proposta de Implementação com ESP32 e ThingsBoard
