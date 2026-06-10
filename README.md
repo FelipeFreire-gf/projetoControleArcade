@@ -1,4 +1,4 @@
-# Análise e Recriação Conceitual de um Controle Arcade
+# Controle Arcade
 
 **Trabalho 2 - 2026-1**
 
@@ -29,7 +29,9 @@ Neste projeto, o controle arcade replica de forma conceitual as entradas de um j
 
 O controle arcade é voltado a jogadores que buscam uma experiência tátil e imersiva, semelhante à de máquinas de fliperama. Seu público-alvo inclui entusiastas de retrogaming, estudantes de sistemas embarcados e usuários interessados em interfaces físicas conectadas à Internet das Coisas (IoT).
 
-No contexto deste trabalho, o dispositivo atua como **controlador remoto** de um jogo hospedado em dashboard web no ThingsBoard: o jogador manipula a alavanca para movimentar a nave, pressiona os botões de ação para executar comandos no jogo e inclina o controle para alterar a orientação da nave, simulando o comportamento de sensores de movimento presentes em controles modernos.
+No contexto deste trabalho, o **foco da equipe é replicar um controle arcade convencional** — alavanca mecânica, botões de ação e funções auxiliares — utilizando microcontrolador ESP32 e componentes da disciplina, com o **adendo de um sensor giroscópico (IMU)** para detectar inclinação e rotação do dispositivo, recurso ausente na maioria dos fight sticks comerciais básicos. O protótipo atua como **controlador remoto** de um jogo hospedado em dashboard web no ThingsBoard: o jogador manipula a alavanca para movimentar a nave, pressiona os botões de ação para executar comandos e inclina o controle para alterar a orientação da nave.
+
+Diferentemente de um **arcade stick comercial pronto para uso** — como o da Figura 1, que já vem com placa encoder USB, conexão plug-and-play ao PC/console, carcaça industrial, botões turbo/macro, seletor de modo (D-pad/analógico), compatibilidade nativa com múltiplas plataformas e mapeamento fixo de fábrica —, **este projeto não pretende reproduzir essas funcionalidades integradas**. A proposta limita-se ao essencial embarcado: leitura digital das entradas físicas, processamento via firmware customizado, envio de telemetria por **Wi-Fi/MQTT** ao ThingsBoard e controle de um jogo web. Não haverá conexão USB direta como gamepad, botões turbo/macro, vibração (rumble), gatilhos analógicos, pareamento Bluetooth com console, nem drivers prontos para qualquer jogo — o diferencial do trabalho está na **integração IoT** e no **controle por inclinação via giroscópio**, não na emulação completa de um produto comercial fechado.
 
 ### 1.2. Componentes e Sensores Utilizados
 
