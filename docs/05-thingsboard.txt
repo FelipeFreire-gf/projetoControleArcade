@@ -1,0 +1,42 @@
+flowchart TB
+    subgraph ESP["ESP32"]
+        TOKEN["Access Token<br/>autenticação MQTT"]
+    end
+
+    subgraph TB_Server["ThingsBoard Server"]
+        subgraph Ingest["Ingestão"]
+            MQTT_IN["MQTT Broker<br/>:1883"]
+            AUTH["Validar Token"]
+        end
+
+        subgraph Storage["Armazenamento"]
+            TS["Telemetria<br/>joy_x, btn_x, ship_yaw..."]
+            ATTR["Atributos<br/>firmware_version, player_name"]
+        end
+
+        subgraph Output["Saída para o Jogo"]
+            WSS["WebSocket<br/>wss://host/api/ws"]
+            RPC_OUT["RPC Server<br/>comandos → ESP32"]
+        end
+
+        subgraph UI["Interface"]
+            WIDGET["Widget HTML customizado"]
+            ALARM["Alarmes / regras<br/>opcional"]
+        end
+    end
+
+    subgraph Game["Jogo Web"]
+        SUB["WebSocket Subscribe<br/>deviceId + keys"]
+        STATE["Estado local<br/>player object"]
+        CANVAS["Canvas 800×600"]
+    end
+
+    TOKEN --> MQTT_IN
+    MQTT_IN --> AUTH --> TS
+
+    TS --> WSS
+    TS --> WIDGET
+    WSS --> SUB --> STATE --> CANVAS
+
+    RPC_OUT -.->|"Opcional: reset, LED"| ESP
+    ALARM -.->|"Ex: game over"| WIDGET

@@ -1,0 +1,18 @@
+flowchart LR
+    subgraph Payload["JSON enviado pelo ESP32"]
+        direction["joy_x: -1 | 0 | 1<br/>joy_y: -1 | 0 | 1"]
+        buttons["btn_square: bool<br/>btn_circle: bool<br/>btn_triangle: bool<br/>btn_x: bool<br/>btn_r1: bool<br/>btn_l2: bool<br/>btn_start: bool<br/>btn_select: bool"]
+        motion["tilt_roll: float °<br/>ship_yaw: float °<br/>tilt_left: bool<br/>tilt_right: bool"]
+    end
+
+    subgraph GameUse["Uso no jogo"]
+        MOVE["Velocidade nave<br/>joy_x × speed<br/>joy_y × speed"]
+        ROT["Rotação nave<br/>ship_yaw ou tilt"]
+        ACT["Ações<br/>X=tiro △=escudo<br/>R1=boost L2=freio"]
+        MENU["Start=pausa<br/>Select=menu"]
+    end
+
+    direction --> MOVE
+    motion --> ROT
+    buttons --> ACT
+    buttons --> MENU

@@ -1,0 +1,18 @@
+flowchart TD
+    INIT["Inicializar jogo<br/>Conectar WebSocket TB"] --> WAIT["Aguardar 1º pacote<br/>de telemetria"]
+
+    WAIT --> GL["Game Loop requestAnimationFrame"]
+
+    GL --> INPUT["Atualizar input<br/>última telemetria recebida"]
+    INPUT --> PHYS["Física da nave<br/>posição += joy × speed<br/>ângulo += ship_yaw × sens"]
+    PHYS --> ACT["Processar botões<br/>tiro / escudo / boost"]
+    ACT --> WORLD["Atualizar inimigos<br/>projéteis · colisões"]
+    WORLD --> SCORE["Pontuação · vidas"]
+    SCORE --> DRAW["Desenhar frame<br/>nave rotacionada"]
+    DRAW --> GL
+
+    subgraph Parallel["Paralelo (assíncrono)"]
+        WS_EVT["WebSocket onmessage<br/>atualiza inputState"]
+    end
+
+    WS_EVT -.-> INPUT

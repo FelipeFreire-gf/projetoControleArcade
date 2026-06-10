@@ -1,0 +1,58 @@
+flowchart TB
+    subgraph HW["Camada Física (Hardware)"]
+        JOY["Alavanca Arcade<br/>4 microswitches + GND"]
+        BTN["8 Botões Arcade<br/>□ ○ △ X · R1 · L2 · Start · Select"]
+        IMU["IMU MPU6050<br/>Acelerômetro + Giroscópio · I2C"]
+        ESP["ESP32 DevKit<br/>Wi-Fi integrado"]
+    end
+
+    subgraph FW["Camada Embarcada (Firmware)"]
+        GPIO["Leitura GPIO<br/>INPUT_PULLUP · Debounce"]
+        IMUP["Processamento IMU<br/>Tilt · Yaw · Filtro complementar"]
+        MAP["Mapeamento de Estado<br/>joy_x/y · botões · rotação"]
+        MQTT_PUB["Cliente MQTT<br/>PubSubClient"]
+        WIFI["Stack Wi-Fi<br/>Modo STA"]
+    end
+
+    subgraph NET["Camada de Rede"]
+        ROUTER["Roteador Wi-Fi"]
+    end
+
+    subgraph TB["ThingsBoard (Servidor IoT)"]
+        BROKER["MQTT Broker · :1883"]
+        DEVICE["Device Profile · Access Token"]
+        TELEM["Telemetria · Time-series DB"]
+        WS["WebSocket API · Tempo real"]
+        REST["REST API · Histórico / RPC"]
+        DASH["Dashboard · Widget HTML/JS"]
+    end
+
+    subgraph APP["Camada de Aplicação (Jogo)"]
+        GAME["Jogo Web<br/>Canvas / Phaser / p5.js"]
+        LOGIC["Game Loop · 60 FPS"]
+        RENDER["Renderização<br/>Nave · Tiros · Colisões"]
+    end
+
+    JOY -->|"4 GPIO digital"| GPIO
+    BTN -->|"8 GPIO digital"| GPIO
+    IMU -->|"SDA + SCL"| IMUP
+
+    GPIO --> MAP
+    IMUP --> MAP
+    MAP --> MQTT_PUB
+    MQTT_PUB --> WIFI
+
+    WIFI -->|"802.11n"| ROUTER
+    ROUTER -->|"MQTT TCP"| BROKER
+
+    BROKER --> DEVICE
+    DEVICE --> TELEM
+    TELEM --> WS
+    TELEM --> REST
+
+    WS -->|"Subscribe telemetria"| GAME
+    REST -->|"Fallback / histórico"| GAME
+
+    GAME --> LOGIC
+    LOGIC --> RENDER
+    DASH -.->|"Widget no dashboard"| GAME

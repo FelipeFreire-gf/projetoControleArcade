@@ -1,0 +1,74 @@
+flowchart LR
+    subgraph ESP32["ESP32"]
+        G13["GPIO 13"]
+        G12["GPIO 12"]
+        G14["GPIO 14"]
+        G27["GPIO 27"]
+        G25["GPIO 25"]
+        G26["GPIO 26"]
+        G32["GPIO 32"]
+        G33["GPIO 33"]
+        G18["GPIO 18"]
+        G19["GPIO 19"]
+        G21["GPIO 21"]
+        G22["GPIO 22"]
+        SDA["GPIO 4 SDA"]
+        SCL["GPIO 15 SCL"]
+        GND["GND"]
+        V33["3.3V"]
+    end
+
+    subgraph Joy["Alavanca"]
+        UP["UP"]
+        DN["DOWN"]
+        LT["LEFT"]
+        RT["RIGHT"]
+        JG["GND"]
+    end
+
+    subgraph Buttons["Botões"]
+        SQ["□ Square"]
+        CI["○ Circle"]
+        TR["△ Triangle"]
+        XX["X"]
+        R1["R1"]
+        L2["L2"]
+        ST["Start"]
+        SE["Select"]
+    end
+
+    subgraph Sensor["MPU6050"]
+        VCC["VCC"]
+        SG["GND"]
+        SD["SDA"]
+        SC["SCL"]
+    end
+
+    UP --> G13
+    DN --> G12
+    LT --> G14
+    RT --> G27
+    JG --> GND
+
+    SQ --> G25
+    CI --> G26
+    TR --> G32
+    XX --> G33
+    R1 --> G18
+    L2 --> G19
+    ST --> G21
+    SE --> G22
+
+    SQ -.-> GND
+    CI -.-> GND
+    TR -.-> GND
+    XX -.-> GND
+    R1 -.-> GND
+    L2 -.-> GND
+    ST -.-> GND
+    SE -.-> GND
+
+    VCC --> V33
+    SG --> GND
+    SD --> SDA
+    SC --> SCL

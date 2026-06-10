@@ -1,0 +1,10 @@
+flowchart TD
+    A["1. Montar hardware<br/>protoboard"] --> B["2. Testar GPIO<br/>Serial Monitor"]
+    B --> C["3. Testar IMU<br/>valores no Serial"]
+    C --> D["4. Cadastrar Device<br/>no ThingsBoard"]
+    D --> E["5. Firmware MQTT<br/>publicar telemetria"]
+    E --> F["6. Ver telemetria<br/>no dashboard TB"]
+    F --> G["7. Jogo web<br/>WebSocket subscribe"]
+    G --> H["8. Integrar controles<br/>→ movimento da nave"]
+    H --> I["9. Montar painel<br/>arcade final"]
+    I --> J["10. Calibrar IMU<br/>e ajustar latência"]

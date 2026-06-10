@@ -1,0 +1,36 @@
+flowchart LR
+    subgraph Controles["Controle Físico"]
+        JU["Alavanca"]
+        IM["Inclinar IMU"]
+        BX["Botão X"]
+        BT["Botão △"]
+        BS["Botão □"]
+        BC["Botão ○"]
+        BR["R1"]
+        BL["L2"]
+        BStart["Start"]
+        BSel["Select"]
+    end
+
+    subgraph Jogo["Ações no Jogo"]
+        MOVE["Mover nave ↑↓←→"]
+        TURN["Rotacionar nave"]
+        SHOOT["Atirar"]
+        SHIELD["Escudo"]
+        BOMB["Bomba / especial"]
+        BOOST["Boost velocidade"]
+        BRAKE["Freio / recuo"]
+        PAUSE["Pausar"]
+        MENU["Menu / reiniciar"]
+    end
+
+    JU --> MOVE
+    IM --> TURN
+    BX --> SHOOT
+    BT --> SHIELD
+    BS --> BOMB
+    BC --> BOOST
+    BR --> BOOST
+    BL --> BRAKE
+    BStart --> PAUSE
+    BSel --> MENU

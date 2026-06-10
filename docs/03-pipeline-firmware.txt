@@ -1,0 +1,28 @@
+flowchart TD
+    START(["setup()"]) --> WIFI_C["Conectar Wi-Fi<br/>SSID + Password"]
+    WIFI_C --> MQTT_C["Conectar MQTT ThingsBoard<br/>Token do Device"]
+    MQTT_C --> I2C_I["Inicializar I2C + MPU6050"]
+    I2C_I --> GPIO_I["Configurar GPIOs<br/>INPUT_PULLUP"]
+
+    GPIO_I --> LOOP(["loop() — 20 Hz"])
+
+    LOOP --> READ_J["Ler alavanca<br/>4 pinos → vetor direção"]
+    LOOP --> READ_B["Ler 8 botões<br/>com debounce 30ms"]
+    LOOP --> READ_I["Ler IMU<br/>accel + gyro"]
+
+    READ_J --> PROC_J["joy_x ∈ {-1,0,1}<br/>joy_y ∈ {-1,0,1}"]
+    READ_B --> PROC_B["btn_* ∈ {true,false}"]
+    READ_I --> PROC_I["Complementary filter<br/>ship_yaw em graus"]
+
+    PROC_J --> BUILD["Montar JSON payload"]
+    PROC_B --> BUILD
+    PROC_I --> BUILD
+
+    BUILD --> CHECK{"Mudou estado<br/>ou timeout 50ms?"}
+    CHECK -->|Sim| PUBLISH["MQTT Publish<br/>v1/devices/me/telemetry"]
+    CHECK -->|Não| LOOP
+
+    PUBLISH --> RECON{"Wi-Fi / MQTT<br/>conectado?"}
+    RECON -->|Não| RECONNECT["Reconectar"]
+    RECON -->|Sim| LOOP
+    RECONNECT --> LOOP
